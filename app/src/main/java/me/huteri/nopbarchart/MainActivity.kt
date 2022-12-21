@@ -1,11 +1,16 @@
 package me.huteri.nopbarchart
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import me.huteri.nopbarchart.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.barChart.setData(1.23, listOf(BarItem(1.2, Color.parseColor("#97C941")), BarItem(1.23, Color.parseColor("#F2B130")), BarItem(1.56, Color.parseColor("#EB2726"))))
+
     }
 }

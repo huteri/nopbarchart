@@ -12,8 +12,8 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
     private var viewHeight: Int = 0
     private var viewWidth: Int = 0
 
-    var markerValue = 0.0
-    var list : List<BarItem> = emptyList()
+    private var markerValue = 0.0
+    private var list : List<BarItem> = emptyList()
 
     private var paint = Paint()
     private var rectF = RectF()
