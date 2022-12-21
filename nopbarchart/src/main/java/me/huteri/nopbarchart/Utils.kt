@@ -4,7 +4,6 @@ import android.content.res.Resources
 import android.util.TypedValue
 
 class Utils {
-
     companion object {
         fun convertDpToPx(dp: Int): Int {
             return convertDpToPx(dp.toFloat())
