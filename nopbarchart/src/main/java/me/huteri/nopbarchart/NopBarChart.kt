@@ -6,6 +6,8 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
+import androidx.core.graphics.BlendModeColorFilterCompat
+import androidx.core.graphics.BlendModeCompat
 
 class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) {
 
@@ -13,7 +15,7 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
     private var viewWidth: Int = 0
 
     private var markerValue = 0.0
-    private var list : List<BarItem> = emptyList()
+    private var list: List<BarItem> = emptyList()
 
     private var paint = Paint()
     private var rectF = RectF()
@@ -44,7 +46,7 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
             val barHeight = 20f.toPx()
             val gapWidth = 2.5f.toPx()
 
-            var markerHeight = 20f.toPx()
+            val markerHeight = 20f.toPx()
 
             var left = horizontalPadding
             val top = markerHeight + 5f.toPx()
@@ -56,12 +58,22 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
                 typeface = ResourcesCompat.getFont(context, R.font.museosans_700)
             }
 
-            val text = "0"
+            var counterSum = 0.0
+
+            var text = counterSum.toDecimalPlaces(2)
             val bounds = Rect()
             paint.getTextBounds(text, 0, text.length, bounds)
             c.drawText(text, left, bounds.height() + bottom + 8f.toPx(), paint)
 
+            var selectedColor = list.firstOrNull()?.color ?: Color.YELLOW
+
+
             list.forEachIndexed { index, barItem ->
+
+                if(markerValue > counterSum && markerValue <= counterSum+barItem.value)
+                    selectedColor = barItem.color
+
+                counterSum += barItem.value
 
                 val right = left + (barItem.value / sum) * totalBarWidth
 
@@ -85,16 +97,16 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
                         typeface = ResourcesCompat.getFont(context, R.font.museosans_700)
                     }
 
-                    val text = barItem.value.toString()
-                    val bounds = Rect()
+                    text = counterSum.toDecimalPlaces(2)
                     paint.getTextBounds(text, 0, text.length, bounds)
 
-                    c.drawText(barItem.value.toString(), left - gapWidth / 2 - bounds.width() / 2, bounds.height() + bottom + 8f.toPx(), paint)
+                    c.drawText(text, left - gapWidth / 2 - bounds.width() / 2, bounds.height() + bottom + 8f.toPx(), paint)
                 }
             }
 
-            val iconLeft = (horizontalPadding + markerValue / sum * totalBarWidth).toInt()
+            val iconLeft = (markerValue / sum * totalBarWidth).toInt()
             val icon = ContextCompat.getDrawable(context, R.drawable.ic_marker)
+            icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(selectedColor, BlendModeCompat.SRC_ATOP)
             icon?.setBounds(iconLeft, 0, iconLeft + 21.toPx(), 19.toPx())
             icon?.draw(c)
         }
