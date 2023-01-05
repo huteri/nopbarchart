@@ -69,7 +69,7 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
             list.forEachIndexed { index, barItem ->
 
-                if(markerValue > counterSum && markerValue <= counterSum+barItem.value)
+                if(markerValue >= counterSum && markerValue <= counterSum+barItem.value)
                     selectedColor = barItem.color
 
                 counterSum += barItem.value
