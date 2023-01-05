@@ -65,8 +65,7 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
             paint.getTextBounds(text, 0, text.length, bounds)
             c.drawText(text, left, bounds.height() + bottom + 8f.toPx(), paint)
 
-            var selectedColor = list.firstOrNull()?.color ?: Color.YELLOW
-
+            var selectedColor = list.lastOrNull()?.color ?: Color.YELLOW
 
             list.forEachIndexed { index, barItem ->
 
@@ -104,7 +103,7 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
                 }
             }
 
-            val iconLeft = (markerValue / sum * totalBarWidth).toInt()
+            val iconLeft = Math.min((markerValue / sum * totalBarWidth).toFloat(), totalBarWidth).toInt()
             val icon = ContextCompat.getDrawable(context, R.drawable.ic_marker)
             icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(selectedColor, BlendModeCompat.SRC_ATOP)
             icon?.setBounds(iconLeft, 0, iconLeft + 21.toPx(), 19.toPx())
