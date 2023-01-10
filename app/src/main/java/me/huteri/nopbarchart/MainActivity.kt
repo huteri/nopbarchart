@@ -10,6 +10,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        binding.barChart.setData(5.0, listOf(BarItem(1.2, Color.parseColor("#97C941")), BarItem(1.0, Color.parseColor("#F2B130")), BarItem(1.0, Color.parseColor("#EB2726"))))
+        binding.barChart.setData(4.10, listOf(BarItem(3.36, Color.parseColor("#97C941")), BarItem(0.75, Color.parseColor("#F2B130")), BarItem(1.0, Color.parseColor("#EB2726"))))
     }
 }

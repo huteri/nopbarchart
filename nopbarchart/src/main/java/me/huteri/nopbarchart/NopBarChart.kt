@@ -40,11 +40,11 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
         canvas?.let { c ->
             val horizontalPadding = 10f.toPx()
 
-            val totalBarWidth = viewWidth - 2 * horizontalPadding
             val sum = list.sumOf { it.value }
 
             val barHeight = 20f.toPx()
             val gapWidth = 2.5f.toPx()
+            val totalBarWidth = viewWidth - 2 * horizontalPadding
 
             val markerHeight = 20f.toPx()
 
@@ -67,10 +67,14 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
 
             var selectedColor = list.lastOrNull()?.color ?: Color.YELLOW
 
+            var gapWidthSum = 0f;
+
             list.forEachIndexed { index, barItem ->
 
-                if(markerValue >= counterSum && markerValue <= counterSum+barItem.value)
+                if(markerValue >= counterSum && markerValue <= counterSum+barItem.value) {
                     selectedColor = barItem.color
+                    gapWidthSum = index * gapWidth
+                }
 
                 counterSum += barItem.value
 
@@ -103,7 +107,8 @@ class NopBarChart(context: Context, attrs: AttributeSet) : View(context, attrs) 
                 }
             }
 
-            val iconLeft = Math.min((markerValue / sum * totalBarWidth).toFloat(), totalBarWidth).toInt()
+
+            val iconLeft = Math.min((markerValue / sum * totalBarWidth + gapWidthSum).toFloat(), totalBarWidth).toInt()
             val icon = ContextCompat.getDrawable(context, R.drawable.ic_marker)
             icon?.colorFilter = BlendModeColorFilterCompat.createBlendModeColorFilterCompat(selectedColor, BlendModeCompat.SRC_ATOP)
             icon?.setBounds(iconLeft, 0, iconLeft + 21.toPx(), 19.toPx())
