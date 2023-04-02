@@ -8,7 +8,7 @@ A simple bar chart
 ```
 MIT License
 
-Copyright (c) 2021 Cotes Chung
+Copyright (c) 2023 Huteri Manza
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
